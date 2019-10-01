@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using ServiceReference;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Artvise_API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class ArtviseController : ControllerBase
     {
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public async Task<InboxDto[]> Get()
         {
-            return new string[] { "value1", "value2" };
+            ServiceReference.ServiceClient svc = new ServiceReference.ServiceClient();
+            return await svc.GetInboxesAsync("4f5c03f7-5311-4d02-aa3e-3cccabf16eab");
         }
 
         // GET api/values/5
